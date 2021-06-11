@@ -21,24 +21,21 @@ class GeekBeezController extends AbstractController
         {
 
             $id = $this->getUser()->getId();
-
+            $gender = $this->getUser()->getGenre();
             $repository = $this->getDoctrine()->getRepository(Panier::class);
             $panier = $repository->findOneBy(['id' => $id]);
 
             return $this->render('accueil.html.twig', [
                 'controller_name' => 'GeekBeezController',
-                'panier' => $panier,
+                'panier' => $panier, 'genre' => $gender
             ]);
-
-
         }
         $panier = NULL;
+        $gender = NULL;
         return $this->render('accueil.html.twig', [
             'controller_name' => 'GeekBeezController',
-            'panier' => $panier,
+            'panier' => $panier,'genre' => $gender
         ]);
-        
-
     }
 
     /**
