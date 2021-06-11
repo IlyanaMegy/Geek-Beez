@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+        <script src="../js/bootstrap.js"></script>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    </head>
+{% apply inline_css %}
+    <body>
+        
+        <!-- la barre de navigation responsive avec Bootstrap -->
+        <div class="bg">
+            <style>
+                body, html {
+                    height: 100%;
+                    margin: 0;
+                    background-color: white;
+                }
+                .bg {
+                    background-image: url("images/bg_produit.svg");
+                    height: 40%;
+                    margin-top:97px;
+                
+                    /* image centrée en placée parfaitement */
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                }
+                hr{
+                    border: none;
+                    border-top: 3px double rgba(0, 0, 0, 0.77);
+                    overflow: visible;
+                    text-align: center;
+                    height: 5px;
+                }
+                h1{
+                    margin: 3%;
+                    letter-spacing: 3px;
+                    font-size: 35px;
+                    color: rgb(77, 57, 9);
+                    text-align: center;
+                }
+                h2{
+                    margin: 3%;
+                    letter-spacing: 3px;
+                    font-size: 26px;
+                    color: rgb(100, 54, 6);
+                    text-align: center;
+                }
+                .selection{
+                    height: 200px;
+                    margin-bottom: 25%;
+                }
+                .selection1{
+                    margin-top: 25%;
+                }
+            </style>
+
+            {% include 'navbar.php' %}
+        </div>
+
+        <div class="container justify-content-center" style="background-color:rgb(245, 253, 180);width: 80%;height:2000px;margin-top:5%;">
+            
+            <div name="title" style="padding-top:20px;">
+                <hr>
+                <h1>Nos produits à votre portée !</h1>
+                <hr>
+            </div>
+       
+            <div class="container" name="selectionS">
+                   
+                <!--Selection 1 = produits phares-->
+                <div id="selection1" class="carousel slide selection1 selection" data-ride="carousel">
+                    <h2>Les Produits Phare</h2>
+                    <div class="carousel-inner">
+    
+                        <!--slide1-->
+                        <div class="carousel-item active" name="slide_1">
+                        <div class="row">
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img1.png" alt=""></div>
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img2.png" alt=""></div>
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img3.png" alt=""></div>
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img4.png" alt=""></div>
+                        </div>
+                        </div>
+    
+                        <!--slide 2-->
+                        <div class="carousel-item" name="slide_2">
+                        <div class="row">
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img3.png" alt=""></div>
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img4.png" alt=""></div>
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img5.png" alt=""></div>
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img6.png" alt=""></div>
+                        </div>
+                        </div>
+                    </div>
+                
+                    <a class="carousel-control-prev" href="#selection1" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#selection1" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only"></span>
+                    </a>
+                </div>
+       
+       
+       
+                <!-- Sélection Bien-être-->
+                <h2>Espace Bien-être</h2>
+                <div id="selection2" class="carousel slide selection" data-ride="carousel">
+                    <div class="carousel-inner">
+    
+                        <!--slide1-->
+                        <div class="carousel-item active" name="slide_1">
+                        <div class="row">
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img1.png" alt=""></div>
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img2.png" alt=""></div>
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img3.png" alt=""></div>
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img4.png" alt=""></div>
+                        </div>
+                        </div>
+    
+                        <!--slide 2-->
+                        <div class="carousel-item" name="slide_2">
+                        <div class="row">
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img3.png" alt=""></div>
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img4.png" alt=""></div>
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img5.png" alt=""></div>
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img6.png" alt=""></div>
+                        </div>
+                        </div>
+                    </div>
+                
+                    <a class="carousel-control-prev" href="#selection2" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#selection2" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only"></span>
+                    </a>
+                </div>
+       
+       
+       
+                <!--Selection alimentation -->
+                <h2>Le petit miam</h2>
+                <div id="selection3" class="carousel slide selection" data-ride="carousel">
+                    <div class="carousel-inner">
+    
+                        <!--slide1-->
+                        <div class="carousel-item active" name="slide_1">
+                        <div class="row">
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img1.png" alt=""></div>
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img2.png" alt=""></div>
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img3.png" alt=""></div>
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img4.png" alt=""></div>
+                        </div>
+                        </div>
+    
+                        <!--slide 2-->
+                        <div class="carousel-item" name="slide_2">
+                        <div class="row">
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img3.png" alt=""></div>
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img4.png" alt=""></div>
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img5.png" alt=""></div>
+                            <div class="col-3"><img class="d-block w-100" src="images/products/img6.png" alt=""></div>
+                        </div>
+                        </div>
+                    </div>
+                
+                    <a class="carousel-control-prev" href="#selection3" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#selection3" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only"></span>
+                    </a>
+                </div>
+            </div>
+               
+        </div>
+
+        <!-- footer -->
+        {% include 'footer.php' %}
+    </body>
+{% endapply %}
+</html>

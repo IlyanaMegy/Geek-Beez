@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<>
+    <head>
+        <title>Inscription</title>
+        <meta charset="utf-8">
+    </head>
+
+    <style>
+        .windows{
+            padding-top: 0;
+            margin-top: 0;
+            background-color: white;
+            height: 100%;
+        }
+
+        .content{
+            background-color: white;
+            border: 2px solid;
+            border-color: rgba(151, 153, 54, 0.699);
+            border-radius: 7px;
+            width: 700px;
+            height: auto;
+        }
+
+        .logo{
+            height: 35%;
+            padding-left:30%;
+        }
+        .logo_form{
+            display: inline-block;
+        }
+
+        .text{
+            margin-top: 5%;
+            letter-spacing: 3px;
+            font-size: 20px;
+            color: rgb(100, 79, 16);
+            text-align: left;
+        }   
+
+        .title_page{
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            width: fit-content;
+            text-align: center;
+            font-size: 30px;
+            margin-left:3%;
+            color: rgb(116, 95, 12);
+        }
+
+        .input_form {
+            margin: 5px;
+            display: inline-block;
+            letter-spacing: 3px;
+            text-align: center;
+        }   
+
+        .container{
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        input{
+            margin-bottom: 5%;
+            border: none;
+            border-bottom: solid;
+            margin-right: 10px;
+            margin-left: 10px;
+            font-size: medium;
+            width: 100px;
+            border-bottom-width: 1px;
+            background-color: transparent;
+        }
+
+        .row{
+            display: flex;
+            margin-right: -15px;
+            margin-left: -15px;
+            flex-wrap: wrap;
+        }
+
+        #registration_form_pays{
+            width: 100px;
+        }
+
+        #registration_form_genre{
+            width: 20px;
+            padding-top: 5%;
+        }
+
+        .col-6 {
+            -ms-flex: 0 0 50%;
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+
+        #registration_form_birthday{
+           width: 100PX;
+        }
+
+    
+    
+    
+    </style>
+
+    {% block body %}
+        {% for flashError in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+        {% endfor %}
+
+        {{ form_start(registrationForm) }}
+
+            <body class="container-fluid windows">
+                <div class="container content" style="margin-top:2px;">
+                    <a href="../php/index.php"><img class='logo' src="../logo/logo_lighter.png" alt="BookClub logo" /></a>
+                            
+                    <div class="title_page">Inscrivez-vous</div>
+                    <div style="margin-left:4%;">
+                        <div class="row">
+                            <div class="col-6" style="padding-top: 5%;">
+                                <div class="input_form">
+                                    {{ form_row(registrationForm.genre) }}
+                                </div>
+                            </div>
+                        
+                            <div class="col-6" style="padding-top: 5%;">
+                                <label for="birthday" class="input_form">
+                                    {{ form_row(registrationForm.birthday , {
+                                    div: 'Date de naissance'
+                                    }) }}
+                                </label>
+                            </div>
+
+                            <div class="col-4">
+                                <label for="nom" class="input_form">
+                                    {{ form_row(registrationForm.nom , {
+                                    div: 'Nom'
+                                    }) }}
+                                </label>
+                            </div>
+            
+                            <div class="col-4">
+                                <label for="prenom" class="input_form">
+                                    {{ form_row(registrationForm.prenom , {
+                                    div: 'Prénom'
+                                    }) }}
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="email" class="input_form">
+                                    {{ form_row(registrationForm.email , {
+                                    div: 'Email'
+                                    }) }}
+                                </label>
+                            </div>
+
+                            <div class="col-6">
+                                <label for="password" class="input_form">
+                                    {{ form_row(registrationForm.plainPassword, {
+                                    div: 'Mot de passe'
+                                    }) }}
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="adresse" class="input_form">
+                                    {{ form_row(registrationForm.adresse , {
+                                    div: 'Adresse'
+                                    }) }}
+                                </label>
+                            </div>
+
+                            <div class="col-4">
+                                <label for="CP" class="input_form">
+                                    {{ form_row(registrationForm.codePostal , {
+                                    div: 'Code Postal'
+                                    }) }}
+                                </label>
+                            </div>
+
+                            <div class="col-4">
+                                <label for="pays" class="input_form">
+                                    {{ form_row(registrationForm.pays , {
+                                    div: 'Pays'
+                                    }) }}
+                                </label>
+                            </div>
+                        </div>
+                        {{ form_row(registrationForm.agreeTerms) }}
+                        <button type="submit" class="btn">Inscription</button>
+                    </div>
+                </div>
+            </body>    
+        {{ form_end(registrationForm) }}
+    {% endblock %}
+</html>
+
