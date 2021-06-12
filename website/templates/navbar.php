@@ -39,7 +39,7 @@
             
             <ul class="navbar-nav" style="display:flex;">
                 <li class="nav-item"><a class="nav-link active " href="{{ path('accueil') }}"><img style="height:70px;width:70px;margin-right:10px;" src="images/logos/logo_geek_beez.svg" alt="geezk beez icon"></a></li>
-                <li class="nav-item"><a class="nav-link active left-items" href="{{ path('produits')}}"><img src="images/icons/shop_icon.svg" class="logo_navbar" alt="shop icon"></a><p style="font-size:x-small;margin-right: 7px;text-align:center;">Boutique</p></li>
+                <li class="nav-item"><a class="nav-link active left-items" href="{{ path('shop')}}"><img src="images/icons/shop_icon.svg" class="logo_navbar" alt="shop icon"></a><p style="font-size:x-small;margin-right: 7px;text-align:center;">Boutique</p></li>
                 <li class="nav-item"><a class="nav-link active left-items" href="{{ path('parrainage')}}"><img src="images/icons/parrainage.svg" class="logo_navbar" alt="parrainage icon"></a><p style="font-size:x-small;margin-right: 7px;text-align:center;">Parrainage</p></li>
                 <li class="nav-item"><a class="nav-link active left-items" href="{{ path('service')}}"><img src="images/icons/services.svg" class="logo_navbar" alt="services icon"></a><p style="font-size:x-small;margin-right: 7px;text-align:center;">Services</p></li>
             </ul>

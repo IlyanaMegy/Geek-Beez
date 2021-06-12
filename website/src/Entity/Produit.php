@@ -52,6 +52,11 @@ class Produit
      */
     private $panier;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="produits")
+     */
+    private $category;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -137,6 +142,18 @@ class Produit
     public function setPanier(?Panier $panier): self
     {
         $this->panier = $panier;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

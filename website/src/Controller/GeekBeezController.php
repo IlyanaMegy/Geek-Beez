@@ -39,12 +39,28 @@ class GeekBeezController extends AbstractController
     }
 
     /**
-     * @Route("/produits", name="produits")
+     * @Route("/shop", name="shop")
      */
     public function products(): Response
     {
-        return $this->render('products.html.twig', [
+        if($this->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+
+            $id = $this->getUser()->getId();
+            $gender = $this->getUser()->getGenre();
+            $repository = $this->getDoctrine()->getRepository(Panier::class);
+            $panier = $repository->findOneBy(['id' => $id]);
+
+            return $this->render('shop.html.twig', [
+                'controller_name' => 'GeekBeezController',
+                'panier' => $panier, 'genre' => $gender
+            ]);
+        }
+        $panier = NULL;
+        $gender = NULL;
+        return $this->render('shop.html.twig', [
             'controller_name' => 'GeekBeezController',
+            'panier' => $panier,'genre' => $gender
         ]);
     }
 
