@@ -65,6 +65,33 @@ class GeekBeezController extends AbstractController
     }
 
     /**
+     * @Route("/shop/bien_etre", name="bien_etre")
+     */
+    public function bien_etre(): Response
+    {
+        if($this->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+
+            $id = $this->getUser()->getId();
+            $gender = $this->getUser()->getGenre();
+            $repository = $this->getDoctrine()->getRepository(Panier::class);
+            $panier = $repository->findOneBy(['id' => $id]);
+
+            return $this->render('shop.html.twig', [
+                'controller_name' => 'GeekBeezController',
+                'panier' => $panier, 'genre' => $gender
+            ]);
+        }
+        $panier = NULL;
+        $gender = NULL;
+
+        return $this->render('bien_etre.html.twig', [
+            'controller_name' => 'GeekBeezController',
+            'panier' => $panier,'genre' => $gender
+        ]);
+    }    
+
+    /**
      * @Route("/parrainage", name="parrainage")
      */
     public function sponsor(): Response

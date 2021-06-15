@@ -65,6 +65,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="datetime")
+     * @var \DateTime
      */
     private $birthday;
 
