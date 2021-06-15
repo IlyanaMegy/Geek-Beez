@@ -19,13 +19,7 @@
         </div>
         
         <div class="container justify-content-center" style="margin-top:150px">
-            <h1>{{ pluralize((produits|length), 'produit', 'produits') }} dans la catégorie bien-être.</h1>
-
-            {% for produit in produits %}
-                <article>
-                    <h2><a href="{{ path('produit_bien_etre', {slug: produit.slug} )}}">{{ produit.titre}}</a></h2>
-                </article>
-            {% endfor %}
+            <h1>Page du {{produit.titre}}</h1>
         </div>
 
     
