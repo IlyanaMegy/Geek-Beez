@@ -12,20 +12,20 @@
 
     </head>
 {% apply inline_css %}
-    <body>
+<body>
 
-        <div>
-            {% include 'navbar.php' %}
-        </div>
-        
-        <div class="container justify-content-center" style="margin-top:150px">
-            <h1>Page du {{produit.titre}}</h1>
-        </div>
-
+    <div>
+        {% include 'navbar.php' %}
+    </div>
     
-        <div>
-            {% include 'footer.php' %}
-        </div>
-    </body>
+    <div class="container justify-content-center" style="margin-top:150px">
+        <h1>Page du {{produit.titre}}</h1>
+    </div>
+
+
+    <div>
+        {% include 'footer.php' %}
+    </div>
+</body>
 {% endapply %}
 </html>

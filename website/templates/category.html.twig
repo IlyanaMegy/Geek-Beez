@@ -12,26 +12,28 @@
 
     </head>
 {% apply inline_css %}
-    <body>
-
-        <div>
-            {% include 'navbar.php' %}
-        </div>
-        
-        <div class="container justify-content-center" style="margin-top:150px">
-            <h1>{{ pluralize((produits|length), 'produit', 'produits') }} dans la catégorie bien-être.</h1>
-
-            {% for produit in produits %}
-                <article>
-                    <h2><a href="{{ path('produit_bien_etre', {slug: produit.slug} )}}">{{ produit.titre}}</a></h2>
-                </article>
-            {% endfor %}
-        </div>
-
+<body>
+    <div>
+        {% include 'navbar.php' %}
+    </div>
     
-        <div>
-            {% include 'footer.php' %}
-        </div>
-    </body>
+    <div class="container justify-content-center" style="margin-top:150px">
+        <h1>{{ pluralize((produits|length), 'produit', 'produits') }} dans la catégorie bien-être.</h1>
+
+        {% for produit in produits %}
+            {%  set route_name = "produit_" ~ app.request.attributes.get('_route')%}
+            
+            <article>
+                <h2><a href="{{ path(
+                    route_name, {slug: produit.slug} )}}">{{ produit.titre}}</a></h2>
+            </article>
+        {% endfor %}
+    </div>
+
+
+    <div>
+        {% include 'footer.php' %}
+    </div>
+</body>
 {% endapply %}
 </html>

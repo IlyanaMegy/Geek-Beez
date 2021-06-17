@@ -27,7 +27,7 @@ class Category
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $slug;
+    private $page;
 
     /**
      * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="category")
@@ -56,14 +56,14 @@ class Category
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getPage(): ?string
     {
-        return $this->slug;
+        return $this->page;
     }
 
-    public function setSlug(string $slug): self
+    public function setPage(string $page): self
     {
-        $this->slug = $slug;
+        $this->page = $page;
 
         return $this;
     }

@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\Membres;
-use App\Form\MembresType;
 use App\Entity\Panier;
 use App\Entity\Produit;
+use App\Repository\CategoryRepository;
 use App\Repository\ProduitRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,6 +44,7 @@ class GeekBeezController extends AbstractController
      * @Route("/boutique", name="shop")
      */
     public function boutique(): Response
+   
     {
         if($this->isGranted('IS_AUTHENTICATED_FULLY'))
         {
@@ -62,25 +63,25 @@ class GeekBeezController extends AbstractController
         $gender = NULL;
         return $this->render('shop.html.twig', [
             'controller_name' => 'GeekBeezController',
-            'panier' => $panier,'genre' => $gender
+            'panier' => $panier,'genre' => $gender, 
         ]);
     }
+
 
     /**
      * @Route("/boutique/bien_etre", name="bien_etre")
      */
     public function bien_etre(ProduitRepository $repo): Response
-    {   $produits = $repo->findAll();
+    {   
+        $produits = $repo->findAll();
         if($this->isGranted('IS_AUTHENTICATED_FULLY'))
         {
-
-            
             $id = $this->getUser()->getId();
             $gender = $this->getUser()->getGenre();
             $repository = $this->getDoctrine()->getRepository(Panier::class);
             $panier = $repository->findOneBy(['id' => $id]);
 
-            return $this->render('bien_etre.html.twig', [
+            return $this->render('category.html.twig', [
                 'controller_name' => 'GeekBeezController',
                 'panier' => $panier, 'genre' => $gender, 'produits' => $produits
             ]);
@@ -88,7 +89,7 @@ class GeekBeezController extends AbstractController
         $panier = NULL;
         $gender = NULL;
 
-        return $this->render('bien_etre.html.twig', [
+        return $this->render('category.html.twig', [
             'controller_name' => 'GeekBeezController',
             'panier' => $panier,'genre' => $gender, 'produits' => $produits
         ]);
@@ -97,7 +98,7 @@ class GeekBeezController extends AbstractController
     /**
      * @Route("/boutique/bien_etre/{slug}", name="produit_bien_etre")
      */
-    public function show(Produit $produit){
+    public function produit_bien_etre(Produit $produit){
 
         if($this->isGranted('IS_AUTHENTICATED_FULLY'))
         {
@@ -123,154 +124,219 @@ class GeekBeezController extends AbstractController
     }
 
 
+    /**
+     * @Route("/boutique/ptit_miam", name="ptit_miam")
+     */
+    public function ptit_miam(ProduitRepository $repo): Response
+    {   
+        $produits = $repo->findAll();
+        if($this->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            $id = $this->getUser()->getId();
+            $gender = $this->getUser()->getGenre();
+            $repository = $this->getDoctrine()->getRepository(Panier::class);
+            $panier = $repository->findOneBy(['id' => $id]);
 
-    // public function ptit_miam(ProduitRepository $repo): Response
-    // {   $produits = $repo->findAll();
-    //     if($this->isGranted('IS_AUTHENTICATED_FULLY'))
-    //     {
+            return $this->render('category.html.twig', [
+                'controller_name' => 'GeekBeezController',
+                'panier' => $panier, 'genre' => $gender, 'produits' => $produits
+            ]);
+        }
+        $panier = NULL;
+        $gender = NULL;
 
-            
-    //         $id = $this->getUser()->getId();
-    //         $gender = $this->getUser()->getGenre();
-    //         $repository = $this->getDoctrine()->getRepository(Panier::class);
-    //         $panier = $repository->findOneBy(['id' => $id]);
+        return $this->render('category.html.twig', [
+            'controller_name' => 'GeekBeezController',
+            'panier' => $panier,'genre' => $gender, 'produits' => $produits
+        ]);
+    }
 
-    //         return $this->render('ptit_miam.html.twig', [
-    //             'controller_name' => 'GeekBeezController',
-    //             'panier' => $panier, 'genre' => $gender, 'produits' => $produits
-    //         ]);
-    //     }
-    //     $panier = NULL;
-    //     $gender = NULL;
-
-    //     return $this->render('ptit_miam.html.twig', [
-    //         'controller_name' => 'GeekBeezController',
-    //         'panier' => $panier,'genre' => $gender, 'produits' => $produits
-    //     ]);
-    // }
-
-    // /**
-    //  * @Route("/boutique/ptit_miam/{slug}", name="produit_ptit_miam")
-    //  */
-    // public function show(Produit $produit){
+    /**
+     * @Route("/boutique/ptit_miam/{slug}", name="produit_ptit_miam")
+     */
+    public function produit_ptit_miam(Produit $produit){
         
-    // }
+        if($this->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            $id = $this->getUser()->getId();
+            $gender = $this->getUser()->getGenre();
+            $repository = $this->getDoctrine()->getRepository(Panier::class);
+            $panier = $repository->findOneBy(['id' => $id]);
+
+            return $this->render('produit.html.twig', [
+                'controller_name' => 'GeekBeezController',
+                'panier' => $panier, 'genre' => $gender, 'produit' => $produit
+            ]);
+        }
+        $panier = NULL;
+        $gender = NULL;
+
+        return $this->render('produit.html.twig', [
+            'controller_name' => 'GeekBeezController',
+            'panier' => $panier,'genre' => $gender, 'produit' => $produit
+        ]);
+    }
 
 
+
+    /**
+     * @Route("/boutique/gadget", name="gadget")
+     */
+    public function gadget(ProduitRepository $repo): Response
+    {   
+        $produits = $repo->findAll();
+        if($this->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            $id = $this->getUser()->getId();
+            $gender = $this->getUser()->getGenre();
+            $repository = $this->getDoctrine()->getRepository(Panier::class);
+            $panier = $repository->findOneBy(['id' => $id]);
+
+            return $this->render('category.html.twig', [
+                'controller_name' => 'GeekBeezController',
+                'panier' => $panier, 'genre' => $gender, 'produits' => $produits
+            ]);
+        }
+        $panier = NULL;
+        $gender = NULL;
+
+        return $this->render('category.html.twig', [
+            'controller_name' => 'GeekBeezController',
+            'panier' => $panier,'genre' => $gender, 'produits' => $produits
+        ]);
+    }
+
+    /**
+     * @Route("/boutique/gadget/{slug}", name="produit_gadget")
+     */
+    public function produit_gadget(Produit $produit){
+        if($this->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            $id = $this->getUser()->getId();
+            $gender = $this->getUser()->getGenre();
+            $repository = $this->getDoctrine()->getRepository(Panier::class);
+            $panier = $repository->findOneBy(['id' => $id]);
+
+            return $this->render('produit.html.twig', [
+                'controller_name' => 'GeekBeezController',
+                'panier' => $panier, 'genre' => $gender, 'produit' => $produit
+            ]);
+        }
+        $panier = NULL;
+        $gender = NULL;
+
+        return $this->render('produit.html.twig', [
+            'controller_name' => 'GeekBeezController',
+            'panier' => $panier,'genre' => $gender, 'produit' => $produit
+        ]);
+    }
+
+
+    /**
+     * @Route("/boutique/skins", name="skins")
+     */
+    public function skins(ProduitRepository $repo): Response
+    {   
+        $produits = $repo->findAll();
+        if($this->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            $id = $this->getUser()->getId();
+            $gender = $this->getUser()->getGenre();
+            $repository = $this->getDoctrine()->getRepository(Panier::class);
+            $panier = $repository->findOneBy(['id' => $id]);
+
+            return $this->render('category.html.twig', [
+                'controller_name' => 'GeekBeezController',
+                'panier' => $panier, 'genre' => $gender, 'produits' => $produits
+            ]);
+        }
+        $panier = NULL;
+        $gender = NULL;
+
+        return $this->render('category.html.twig', [
+            'controller_name' => 'GeekBeezController',
+            'panier' => $panier,'genre' => $gender, 'produits' => $produits
+        ]);
+    }
+
+    /**
+     * @Route("/boutique/skins/{slug}", name="produit_skins")
+     */
+    public function produit_skins(Produit $produit){
+        if($this->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            $id = $this->getUser()->getId();
+            $gender = $this->getUser()->getGenre();
+            $repository = $this->getDoctrine()->getRepository(Panier::class);
+            $panier = $repository->findOneBy(['id' => $id]);
+
+            return $this->render('produit.html.twig', [
+                'controller_name' => 'GeekBeezController',
+                'panier' => $panier, 'genre' => $gender, 'produit' => $produit
+            ]);
+        }
+        $panier = NULL;
+        $gender = NULL;
+
+        return $this->render('produit.html.twig', [
+            'controller_name' => 'GeekBeezController',
+            'panier' => $panier,'genre' => $gender, 'produit' => $produit
+        ]);
+    }
+
+
+
+    /**
+     * @Route("/boutique/phares", name="phares")
+     */
+    public function phares(ProduitRepository $repo): Response
+    {   
+        $produits = $repo->findAll();
+        if($this->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            $id = $this->getUser()->getId();
+            $gender = $this->getUser()->getGenre();
+            $repository = $this->getDoctrine()->getRepository(Panier::class);
+            $panier = $repository->findOneBy(['id' => $id]);
+
+            return $this->render('category.html.twig', [
+                'controller_name' => 'GeekBeezController',
+                'panier' => $panier, 'genre' => $gender, 'produits' => $produits
+            ]);
+        }
+        $panier = NULL;
+        $gender = NULL;
+
+        return $this->render('category.html.twig', [
+            'controller_name' => 'GeekBeezController',
+            'panier' => $panier,'genre' => $gender, 'produits' => $produits
+        ]);
+    }
+    /**
+     * @Route("/boutique/phares/{slug}", name="produit_phares")
+     */
+    public function produit_phares(Produit $produit){
+        if($this->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            $id = $this->getUser()->getId();
+            $gender = $this->getUser()->getGenre();
+            $repository = $this->getDoctrine()->getRepository(Panier::class);
+            $panier = $repository->findOneBy(['id' => $id]);
+
+            return $this->render('produit.html.twig', [
+                'controller_name' => 'GeekBeezController',
+                'panier' => $panier, 'genre' => $gender, 'produit' => $produit
+            ]);
+        }
+        $panier = NULL;
+        $gender = NULL;
+
+        return $this->render('produit.html.twig', [
+            'controller_name' => 'GeekBeezController',
+            'panier' => $panier,'genre' => $gender, 'produit' => $produit
+        ]);
+    }
     
-    // /**
-    //  * @Route("/boutique/gadget", name="gadget")
-    //  */
-
-    // public function gadget(ProduitRepository $repo): Response
-    // {   $produits = $repo->findAll();
-    //     if($this->isGranted('IS_AUTHENTICATED_FULLY'))
-    //     {
-
-            
-    //         $id = $this->getUser()->getId();
-    //         $gender = $this->getUser()->getGenre();
-    //         $repository = $this->getDoctrine()->getRepository(Panier::class);
-    //         $panier = $repository->findOneBy(['id' => $id]);
-
-    //         return $this->render('gadget.html.twig', [
-    //             'controller_name' => 'GeekBeezController',
-    //             'panier' => $panier, 'genre' => $gender, 'produits' => $produits
-    //         ]);
-    //     }
-    //     $panier = NULL;
-    //     $gender = NULL;
-
-    //     return $this->render('gadget.html.twig', [
-    //         'controller_name' => 'GeekBeezController',
-    //         'panier' => $panier,'genre' => $gender, 'produits' => $produits
-    //     ]);
-    // }
-
-    // /**
-    //  * @Route("/boutique/gadget/{slug}", name="produit_gadget")
-    //  */
-    // public function show(Produit $produit){
-        
-    // }
-
-
-      
-    // /**
-    //  * @Route("/boutique/skins", name="skins")
-    //  */
-
-    // public function skins(ProduitRepository $repo): Response
-    // {   $produits = $repo->findAll();
-    //     if($this->isGranted('IS_AUTHENTICATED_FULLY'))
-    //     {
-
-            
-    //         $id = $this->getUser()->getId();
-    //         $gender = $this->getUser()->getGenre();
-    //         $repository = $this->getDoctrine()->getRepository(Panier::class);
-    //         $panier = $repository->findOneBy(['id' => $id]);
-
-    //         return $this->render('skins.html.twig', [
-    //             'controller_name' => 'GeekBeezController',
-    //             'panier' => $panier, 'genre' => $gender, 'produits' => $produits
-    //         ]);
-    //     }
-    //     $panier = NULL;
-    //     $gender = NULL;
-
-    //     return $this->render('skins.html.twig', [
-    //         'controller_name' => 'GeekBeezController',
-    //         'panier' => $panier,'genre' => $gender, 'produits' => $produits
-    //     ]);
-    // }
-
-    // /**
-    //  * @Route("/boutique/skins/{slug}", name="skins")
-    //  */
-    // public function show(Produit $produit){
-        
-    // }
-
-
-      
-    // /**
-    //  * @Route("/boutique/phares", name="phares")
-    //  */
-
-    // public function phares(ProduitRepository $repo): Response
-    // {   $produits = $repo->findAll();
-    //     if($this->isGranted('IS_AUTHENTICATED_FULLY'))
-    //     {
-
-            
-    //         $id = $this->getUser()->getId();
-    //         $gender = $this->getUser()->getGenre();
-    //         $repository = $this->getDoctrine()->getRepository(Panier::class);
-    //         $panier = $repository->findOneBy(['id' => $id]);
-
-    //         return $this->render('phares.html.twig', [
-    //             'controller_name' => 'GeekBeezController',
-    //             'panier' => $panier, 'genre' => $gender, 'produits' => $produits
-    //         ]);
-    //     }
-    //     $panier = NULL;
-    //     $gender = NULL;
-
-    //     return $this->render('phares.html.twig', [
-    //         'controller_name' => 'GeekBeezController',
-    //         'panier' => $panier,'genre' => $gender, 'produits' => $produits
-    //     ]);
-    // }
-
-    // /**
-    //  * @Route("/boutique/phares/{slug}", name="phares")
-    //  */
-    // public function show(Produit $produit){
-        
-    // }
-
-
 
     /**
      * @Route("/parrainage", name="parrainage")
