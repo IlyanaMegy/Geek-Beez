@@ -73,7 +73,10 @@ class GeekBeezController extends AbstractController
      */
     public function bien_etre(ProduitRepository $repo): Response
     {   
-        $produits = $repo->findAll();
+        $produits = $repo->findBy(
+            ['categorie' => '1'],
+            ['prix' => 'ASC']
+        );
         if($this->isGranted('IS_AUTHENTICATED_FULLY'))
         {
             $id = $this->getUser()->getId();
@@ -125,9 +128,9 @@ class GeekBeezController extends AbstractController
 
 
     /**
-     * @Route("/boutique/ptit_miam", name="ptit_miam")
+     * @Route("/boutique/petit_miam", name="petit_miam")
      */
-    public function ptit_miam(ProduitRepository $repo): Response
+    public function petit_miam(ProduitRepository $repo): Response
     {   
         $produits = $repo->findAll();
         if($this->isGranted('IS_AUTHENTICATED_FULLY'))
@@ -152,9 +155,9 @@ class GeekBeezController extends AbstractController
     }
 
     /**
-     * @Route("/boutique/ptit_miam/{slug}", name="produit_ptit_miam")
+     * @Route("/boutique/petit_miam/{slug}", name="produit_petit_miam")
      */
-    public function produit_ptit_miam(Produit $produit){
+    public function produit_petit_miam(Produit $produit){
         
         if($this->isGranted('IS_AUTHENTICATED_FULLY'))
         {

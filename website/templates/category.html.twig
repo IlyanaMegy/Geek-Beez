@@ -13,20 +13,42 @@
     </head>
 {% apply inline_css %}
 <body>
+
+    <style>
+        .article{
+            width : 95%;
+            height : 200px;
+            margin-top : 5%;
+            border-bottom:2px solid #ddd;
+            padding: 70px;
+            padding-top: 50px; 
+        }
+
+        .photo{
+            height:130px;
+            width:130px;
+        }
+    </style>
     <div>
         {% include 'navbar.php' %}
     </div>
+
+    <h1>{{ pluralize((produits|length), 'produit', 'produits') }} dans la catégorie bien-être.</h1>
     
     <div class="container justify-content-center" style="margin-top:150px">
-        <h1>{{ pluralize((produits|length), 'produit', 'produits') }} dans la catégorie bien-être.</h1>
+        
 
         {% for produit in produits %}
             {%  set route_name = "produit_" ~ app.request.attributes.get('_route')%}
+            {%  set photo = "../images/produit/" ~ produit.photo %}
             
-            <article>
+            <div class="container">
+                <img src="{{ photo }}" class="photo" alt="{{ produit.slug }}">
+            </div>
+            <div class="article container justify-content-center">
                 <h2><a href="{{ path(
                     route_name, {slug: produit.slug} )}}">{{ produit.titre}}</a></h2>
-            </article>
+            </div>
         {% endfor %}
     </div>
 
