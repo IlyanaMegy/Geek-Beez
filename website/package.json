@@ -11,5 +11,8 @@
     "sass-loader": "10.0.0",
     "stimulus": "^2.0.0",
     "webpack-notifier": "^1.13.0"
+  },
+  "dependencies": {
+    "aos": "^2.3.4"
   }
 }
