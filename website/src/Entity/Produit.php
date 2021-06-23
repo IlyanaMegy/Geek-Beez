@@ -25,7 +25,7 @@ class Produit
     private $titre;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=15)
      */
     private $prix;
 

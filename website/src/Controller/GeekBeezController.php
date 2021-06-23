@@ -132,6 +132,7 @@ class GeekBeezController extends AbstractController
      */
     public function petit_miam(ProduitRepository $repo): Response
     {   
+        
         $produits = $repo->findAll();
         if($this->isGranted('IS_AUTHENTICATED_FULLY'))
         {
