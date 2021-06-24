@@ -54,12 +54,21 @@
         {% for produit in produits %}
             {%  set route_name = "produit_" ~ app.request.attributes.get('_route')%}
             {%  set photo = "../images/produit/" ~ produit.photo %}
+            
+            {%  set testprix = produit.prix % 100 %}
+            {%  set dividedprix = produit.prix / 100 %}
+
+            {%  if testprix == 0 %}
+                {%  set prix = dividedprix ~ ".00" %}
+            {% else %}
+                {%  set prix = dividedprix %}
+            {%  endif %}
 
             <div class="product_div">
                 <div class="col-sm" style="height: 50%;"><img src="{{ photo }}" class="photo" alt="{{ produit.slug }}"></div>
                 <div class="article container justify-content-center">
                     <h3><a href="{{ path(route_name, {slug: produit.slug} )}}">{{ produit.titre}}</a></h3>
-                    <h5><a href="{{ path(route_name, {slug: produit.slug} )}}">{{ produit.prix}}</a></h5>
+                    <h5><a href="{{ path(route_name, {slug: produit.slug} )}}">{{prix}}</a></h5>
                 </div>
             </div>
         {% endfor %}
