@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210623164709 extends AbstractMigration
+final class Version20210629075203 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,12 @@ final class Version20210623164709 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE produit CHANGE prix prix VARCHAR(15) NOT NULL');
+        $this->addSql('CREATE TABLE panier (id INT AUTO_INCREMENT NOT NULL, product_id LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\', occurence LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:array)\', PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE produit CHANGE prix prix INT NOT NULL');
+        $this->addSql('DROP TABLE panier');
     }
 }

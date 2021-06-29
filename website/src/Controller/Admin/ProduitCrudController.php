@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 
 class ProduitCrudController extends AbstractCrudController
 {
@@ -23,7 +24,11 @@ class ProduitCrudController extends AbstractCrudController
         return [
             TextField::new('titre'),
             TextField::new('slug'),
-            MoneyField::new('prix') ,'divisor' => 100,
+            MoneyField::new('prix')->setCurrency('EUR'),
+            NumberField::new('quantity')
+            ->formatValue(function ($value) {
+                return $value < 5 ? sprintf('%d **LOW STOCK**', $value) : $value;
+            }),
             TextEditorField::new('imageFile')
             ->setFormType(VichImageType::class),
             TextEditorField::new('descr')

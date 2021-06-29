@@ -46,11 +46,6 @@ class Produit
     private $descr;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Panier::class, inversedBy="id_produit")
-     */
-    private $panier;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="produits")
      */
     private $categorie;
@@ -69,6 +64,11 @@ class Produit
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $quantity;
 
     function __construct()
     {
@@ -151,18 +151,6 @@ class Produit
         return $this;
     }
 
-    public function getPanier(): ?Panier
-    {
-        return $this->panier;
-    }
-
-    public function setPanier(?Panier $panier): self
-    {
-        $this->panier = $panier;
-
-        return $this;
-    }
-
     public function getCategory(): ?Category
     {
         return $this->category;
@@ -219,6 +207,18 @@ class Produit
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): self
+    {
+        $this->quantity = $quantity;
 
         return $this;
     }

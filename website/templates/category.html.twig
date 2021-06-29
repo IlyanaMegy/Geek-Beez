@@ -64,11 +64,21 @@
                 {%  set prix = dividedprix %}
             {%  endif %}
 
+           
+
+
             <div class="product_div">
+            {% if genre %}
+                <div><a href="{{ path("add_to_panier", {'id': produit.id} )}}"><img style="height:50px;width:50px;" src="../images/icons/panier_vide.svg"></a></div>
+            {% else %}
+                <div><a href="{{ path("app_login", {'id': produit.id} )}}"><img style="height:50px;width:50px;" src="../images/icons/panier_vide.svg"></a></div>
+            {% endif %}
                 <div class="col-sm" style="height: 50%;"><img src="{{ photo }}" class="photo" alt="{{ produit.slug }}"></div>
                 <div class="article container justify-content-center">
+                    
                     <h3><a href="{{ path(route_name, {slug: produit.slug} )}}">{{ produit.titre}}</a></h3>
                     <h5><a href="{{ path(route_name, {slug: produit.slug} )}}">{{prix}}</a></h5>
+                    {{ produit.descr }}
                 </div>
             </div>
         {% endfor %}

@@ -51,7 +51,7 @@
             <ul class="navbar-nav" style="display:flex;">
 
                 <!-- php ici si utilisateur connecté alors redirection vers page profil.php sinon redirection vers page index.php -->
-                {% if panier %}
+                {% if genre %}
                     {% if genre == "0" %}
                         <li class="nav-item">
                             <a class="nav-link link_enable" href="{{ path('app_login')}}"><img class="logo_navbar" src="../images/icons/profil_mec_v.svg"></a>
@@ -71,12 +71,9 @@
                     </li>
                 {% endif %}
 
-                {% if panier %}
-                    {% if (panier.occurrence != 0) %}
-                            <li class="nav-item"><a class="nav-link active" href="{{ path('panier')}}"><img class="logo_navbar" src="../images/icons/panier_full.svg"></a><p style="font-size:x-small;margin-right: 7px;text-align:center;">Panier</p></li> 
-                    {% else %}
-                            <li class="nav-item"><a class="nav-link active" href="{{ path('panier')}}"><img class="logo_navbar" src="../images/icons/panier_vide.svg"></a><p style="font-size:x-small;margin-right: 7px;text-align:center;">Panier</p></li> 
-                    {% endif %}
+                {% if genre %}
+                    <li class="nav-item"><a class="nav-link active" href="{{ path('panier')}}"><img class="logo_navbar" src="../images/icons/panier_full.svg"></a><p style="font-size:x-small;margin-right: 7px;text-align:center;">Panier</p></li> 
+                    
                 {% else %}
                     <li class="nav-item"><a class="nav-link active" href="{{ path('app_login')}}"><img class="logo_navbar" src="../images/icons/panier_vide.svg"></a><p style="font-size:x-small;margin-right: 7px;text-align:center;">Panier</p></li> 
                 {% endif %}

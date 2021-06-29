@@ -12,29 +12,11 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Panier[]    findAll()
  * @method Panier[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-
 class PanierRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Panier::class);
-    }
-
-    /**
-     * @return Panier[]
-     */
-    public function findById(int $id): int
-    {
-        $entityManager = $this->getEntityManager();
-
-        $query = $entityManager->createQuery(
-            'SELECT p.occurrence
-            FROM App\Entity\Panier p
-            WHERE p.id == :id'
-        )->setParameter('id', $id);
-
-        // returns an array of Panier objects
-        return $query->getResult();
     }
 
     // /**

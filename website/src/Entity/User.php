@@ -52,10 +52,6 @@ class User implements UserInterface
      */
     private $isVerified = false;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Panier::class, inversedBy="id_user")
-     */
-    private $panier;
 
     /**
      * @ORM\Column(type="string", length=15)
@@ -93,6 +89,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $reset_token;
+
 
     public function getId(): ?int
     {
@@ -152,7 +149,7 @@ class User implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE
-        $roles[] = 'ROLE';
+        $roles[] = 'Low';
 
         return array_unique($roles);
     }
@@ -211,17 +208,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPanier(): ?Panier
-    {
-        return $this->panier;
-    }
-
-    public function setPanier(?Panier $panier): self
-    {
-        $this->panier = $panier;
-
-        return $this;
-    }
 
     public function getGenre(): ?string
     {
