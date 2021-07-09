@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Panier;
+use App\Entity\Produit;
 use App\Form\ResetPasswordType;
 use App\Repository\UserRepository;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,10 +25,6 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
-
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
@@ -37,7 +36,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/deconnexion", name="app_logout")
      */
-    public function logout()
+    public function logout(SessionInterface $session): Response
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
@@ -55,10 +54,10 @@ class SecurityController extends AbstractController
         // formulaire valide condition
         if($form->isSubmitted() && $form->isValid()){
             // on recup les donnees  
-            $donnnees = $form->getData();
+            $donnees = $form->getData();
           
             // email appartient à un user
-            $user = $userRepo->findOneByEmail($donnnees['email']);
+            $user = $userRepo->findOneByEmail($donnees['email']);
 
             // si user n'existe pas
             if(!$user){

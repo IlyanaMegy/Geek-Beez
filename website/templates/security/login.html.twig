@@ -1,37 +1,143 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+        <script src="../js/bootstrap.js"></script>
 
-{% block title %}Log in!{% endblock %}
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-{% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    </head>
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+    <style>
+        body, html {
+            height: 550px;
+            margin: 0;
+            margin-top: 5%;
+        }
+        .central_div {
+            height: 100%;
+        }
+        .logo{
+            width: 40%;
+            height: auto;
+        }
+        hr{
+            color: #d28c00;
+            margin-left:75px;
+        }
+        h1, h2, h3{
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        h1{
+            font-size: xx-large;
+        }
+        h2{
+            font-size: x-large;
+            text-align: center;
+        }
+        h3{
+            font-size: large;
+            margin:15px;
+        }
+        a{
+            color: #d28c00;
+            text-decoration: none;
+        }
+        a:hover{
+            color: #169316;
+        }
+
+        form{
+            margin-left: 50px;
+            padding: 5%;
+            background-color: #ff8f008a;
+            border-radius: 15px;
+        }
+        .form-control{
+            border:none;
+        }
+        input{
+            margin-bottom:5%;
+            border:none;
+        }
+        .btn-primary{
+            background-color: white;
+            color: black;
+            border: none;
+        }
+        .btn-primary:hover{
+            background-color: white;
+            color: black;
+            border: none;
+        }
+        .btn{
+            margin-left: 72%;
+        }
+
+    </style>
+{% apply inline_css %}
+    <body>
+        <div class="container central_div">
+        <div class="row">
+            <div class="col-6">
+                <a href="{{ path('accueil') }}"><img src="images/logos/logo_geek_beez.svg" class="logo" alt="logo geek beez"></a>
+                <div>
+                    <h1>Connectez-vous ici</h1>
+                    <h1>pour accéder à votre espace !</h1>
+                    <hr style="height:2px;">
+                </div>
+            </div>
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="col-6" style="margin-top:5%;">
+                    <div class="mb-3">
+                        <h2>Vous êtes déjà connecté en tant que</h2> 
+                        <h1 style="text-align:center;"><b>{{ app.user.prenom }} {{ app.user.nom }}</b></h1>
+                    </div>
+                    <div style="margin-top: 20%;text-align: right;">
+                        <a href="{{ path('accueil') }}"><h3> Retour sur la page d'accueil</h3></a>
+                        <a href="{{ path('app_logout') }}"><h3> Se déconnecter</h3></a>
+                    </div>
+                </div>
+
+            {% else %}
+                <div class="col-6">
+                    
+                    <form method="post">
+                        <input type="email" value="{{ last_username }}" placeholder="Email" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                        <input type="password" placeholder="Mot de passe" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="checkbox mb-3">
+                                    <label>
+                                        <input type="checkbox" name="_remember_me"> Se souvenir
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-6" style="text-align:right;">
+                                <a style="color:black;" href="{{ path('app_forgotten_password') }}">Mot de passe oublié ?</a>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-lg btn-primary" type="submit">Connexion</button>
+                    </form>
+                
+            {% endif %}
+        
         </div>
-    {% endif %}
+        
+    </body>
+{% endapply %}
+</html>
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" name="_remember_me"> Remember me
-        </label>
-    </div>
-   
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
-{% endblock %}

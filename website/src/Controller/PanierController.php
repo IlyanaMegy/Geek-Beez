@@ -32,7 +32,7 @@ class PanierController extends AbstractController
 
         foreach($panierdata as $item){
             $totalItem = $item['produit']->getPrix() * $item['quantity'];
-            $total += $totalItem;
+            $total ++;
         }
 
         if($this->isGranted('IS_AUTHENTICATED_FULLY'))
@@ -44,15 +44,14 @@ class PanierController extends AbstractController
 
             return $this->render('panier.html.twig', [
                 'controller_name' => 'GeekBeezController',
-                'items' => $panierdata, 'genre' => $gender, 'panier' => $panier,'total' => $total,
+                'items' => $panierdata, 'genre' => $gender, 'panier' => $panier,
             ]);
         }
-        $panier = NULL;
         $gender = NULL;
 
         return $this->render('panier.html.twig', [
             'controller_name' => 'GeekBeezController',
-            'items' => $panierdata,'genre' => $gender, 'panier' => $panier,'total' => $total,
+            'items' => $panierdata,'genre' => $gender, 'panier' => $panier,
         ]);
     }
 
@@ -70,8 +69,11 @@ class PanierController extends AbstractController
             $panier[$id]=1;
         }
 
+        $produit_occur = $panier[$id];
+
         $session->set('panier', $panier);
-        dd($session->get('panier'));
+        $this->get('session')->set('aBasket', $panier);
+        dd($panier);
 
     }
 }

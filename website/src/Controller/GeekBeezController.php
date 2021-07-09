@@ -1,16 +1,16 @@
 <?php
-
+//https://dev.to/qferrer/managing-the-cart-storage-building-a-shopping-cart-with-symfony-57o6#cart-manager0
 namespace App\Controller;
 
-use App\Entity\Category;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\Panier;
 use App\Entity\Produit;
-use App\Repository\CategoryRepository;
 use App\Repository\ProduitRepository;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Manager\CartManager;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\AddToCartType;
 
 class GeekBeezController extends AbstractController
 {
@@ -21,23 +21,17 @@ class GeekBeezController extends AbstractController
     {
         if($this->isGranted('IS_AUTHENTICATED_FULLY'))
         {
-
             $id = $this->getUser()->getId();
             $gender = $this->getUser()->getGenre();
-            $repository = $this->getDoctrine()->getRepository(Panier::class);
-            $panier = $repository->findOneBy(['id' => $id]);
 
             return $this->render('accueil.html.twig', [
-                'controller_name' => 'GeekBeezController',
-                'panier' => $panier, 'genre' => $gender
+                'controller_name' => 'GeekBeezController','genre' => $gender
             ]);
         }else{
-            $panier = NULL;
-            $gender = NULL;        
+           $gender = NULL;        
         }
         return $this->render('accueil.html.twig', [
-            'controller_name' => 'GeekBeezController',
-            'panier' => $panier,'genre' => $gender
+            'controller_name' => 'GeekBeezController','genre' => $gender
         ]);
     }
 
@@ -52,20 +46,16 @@ class GeekBeezController extends AbstractController
 
             $id = $this->getUser()->getId();
             $gender = $this->getUser()->getGenre();
-            $repository = $this->getDoctrine()->getRepository(Panier::class);
-            $panier = $repository->findOneBy(['id' => $id]);
+            
 
             return $this->render('shop.html.twig', [
-                'controller_name' => 'GeekBeezController',
-                'panier' => $panier, 'genre' => $gender
+                'controller_name' => 'GeekBeezController','genre' => $gender
             ]);
         }else{
-            $panier = NULL;
-            $gender = NULL;        
+           $gender = NULL;        
         }
         return $this->render('shop.html.twig', [
-            'controller_name' => 'GeekBeezController',
-            'panier' => $panier,'genre' => $gender, 
+            'controller_name' => 'GeekBeezController','genre' => $gender, 
         ]);
     }
 
@@ -83,53 +73,57 @@ class GeekBeezController extends AbstractController
         {
             $id = $this->getUser()->getId();
             $gender = $this->getUser()->getGenre();
-            $repository = $this->getDoctrine()->getRepository(Panier::class);
-            $panier = $repository->findOneBy(['id' => $id]);
+            
 
             return $this->render('category.html.twig', [
-                'controller_name' => 'GeekBeezController',
-                'panier' => $panier, 'genre' => $gender, 'produits' => $produits
+                'controller_name' => 'GeekBeezController','genre' => $gender, 'produits' => $produits
             ]);
         }else{
-            $panier = NULL;
-            $gender = NULL;        
+           $gender = NULL;        
         }
         
 
         return $this->render('category.html.twig', [
-            'controller_name' => 'GeekBeezController',
-            'panier' => $panier,'genre' => $gender, 'produits' => $produits
+            'controller_name' => 'GeekBeezController','genre' => $gender, 'produits' => $produits
         ]);
     }
 
     /**
      * @Route("/boutique/bien_etre/{slug}", name="produit_bien_etre")
      */
-    public function produit_bien_etre(Produit $produit){
+    public function produit_bien_etre(Produit $produit,  Request $request,  CartManager $cartManager)
+    {
+        $form = $this->createForm(AddToCartType::class);
+
+        $form->handleRequest($request);
 
         if($this->isGranted('IS_AUTHENTICATED_FULLY'))
         {
-
-            
             $id = $this->getUser()->getId();
             $gender = $this->getUser()->getGenre();
-            $repository = $this->getDoctrine()->getRepository(Panier::class);
-            $panier = $repository->findOneBy(['id' => $id]);
-
-            return $this->render('produit.html.twig', [
-                'controller_name' => 'GeekBeezController',
-                'panier' => $panier, 'genre' => $gender, 'produit' => $produit
-            ]);
         }else{
-            $panier = NULL;
-            $gender = NULL;        
+           $gender = NULL;     
         }
-        
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $item = $form->getData();
+            $item->setProduit($produit);
+
+            $cart = $cartManager->getCurrentCart();
+            $cart
+                ->addItem($item)
+                ->setUpdatedAt(new \DateTime());
+
+            $cartManager->save($cart);
+            return $this->redirectToRoute('produit_bien_etre',['slug' => $produit->getSlug()]);
+        }
 
         return $this->render('produit.html.twig', [
+            'produit' => $produit,
+            'form' => $form->createView(),
             'controller_name' => 'GeekBeezController',
-            'panier' => $panier,'genre' => $gender, 'produit' => $produit
-        ]);
+            'genre' => $gender,
+        ]); 
     }
 
 
@@ -147,22 +141,18 @@ class GeekBeezController extends AbstractController
         {
             $id = $this->getUser()->getId();
             $gender = $this->getUser()->getGenre();
-            $repository = $this->getDoctrine()->getRepository(Panier::class);
-            $panier = $repository->findOneBy(['id' => $id]);
+            
 
             return $this->render('category.html.twig', [
-                'controller_name' => 'GeekBeezController',
-                'panier' => $panier, 'genre' => $gender, 'produits' => $produits
+                'controller_name' => 'GeekBeezController','genre' => $gender, 'produits' => $produits
             ]);
         }else{
-            $panier = NULL;
-            $gender = NULL;        
+           $gender = NULL;        
         }
         
 
         return $this->render('category.html.twig', [
-            'controller_name' => 'GeekBeezController',
-            'panier' => $panier,'genre' => $gender, 'produits' => $produits
+            'controller_name' => 'GeekBeezController','genre' => $gender, 'produits' => $produits
         ]);
     }
 
@@ -175,22 +165,18 @@ class GeekBeezController extends AbstractController
         {
             $id = $this->getUser()->getId();
             $gender = $this->getUser()->getGenre();
-            $repository = $this->getDoctrine()->getRepository(Panier::class);
-            $panier = $repository->findOneBy(['id' => $id]);
+            
 
             return $this->render('produit.html.twig', [
-                'controller_name' => 'GeekBeezController',
-                'panier' => $panier, 'genre' => $gender, 'produit' => $produit
+                'controller_name' => 'GeekBeezController','genre' => $gender, 'produit' => $produit
             ]);
         }else{
-            $panier = NULL;
-            $gender = NULL;        
+           $gender = NULL;        
         }
         
 
         return $this->render('produit.html.twig', [
-            'controller_name' => 'GeekBeezController',
-            'panier' => $panier,'genre' => $gender, 'produit' => $produit
+            'controller_name' => 'GeekBeezController','genre' => $gender, 'produit' => $produit
         ]);
     }
 
@@ -209,22 +195,18 @@ class GeekBeezController extends AbstractController
         {
             $id = $this->getUser()->getId();
             $gender = $this->getUser()->getGenre();
-            $repository = $this->getDoctrine()->getRepository(Panier::class);
-            $panier = $repository->findOneBy(['id' => $id]);
+            
 
             return $this->render('category.html.twig', [
-                'controller_name' => 'GeekBeezController',
-                'panier' => $panier, 'genre' => $gender, 'produits' => $produits
+                'controller_name' => 'GeekBeezController','genre' => $gender, 'produits' => $produits
             ]);
         }else{
-            $panier = NULL;
-            $gender = NULL;        
+           $gender = NULL;        
         }
         
 
         return $this->render('category.html.twig', [
-            'controller_name' => 'GeekBeezController',
-            'panier' => $panier,'genre' => $gender, 'produits' => $produits
+            'controller_name' => 'GeekBeezController','genre' => $gender, 'produits' => $produits
         ]);
     }
 
@@ -236,22 +218,18 @@ class GeekBeezController extends AbstractController
         {
             $id = $this->getUser()->getId();
             $gender = $this->getUser()->getGenre();
-            $repository = $this->getDoctrine()->getRepository(Panier::class);
-            $panier = $repository->findOneBy(['id' => $id]);
+            
 
             return $this->render('produit.html.twig', [
-                'controller_name' => 'GeekBeezController',
-                'panier' => $panier, 'genre' => $gender, 'produit' => $produit
+                'controller_name' => 'GeekBeezController','genre' => $gender, 'produit' => $produit
             ]);
         }else{
-            $panier = NULL;
-            $gender = NULL;        
+           $gender = NULL;        
         }
         
 
         return $this->render('produit.html.twig', [
-            'controller_name' => 'GeekBeezController',
-            'panier' => $panier,'genre' => $gender, 'produit' => $produit
+            'controller_name' => 'GeekBeezController','genre' => $gender, 'produit' => $produit
         ]);
     }
 
@@ -269,21 +247,17 @@ class GeekBeezController extends AbstractController
         {
             $id = $this->getUser()->getId();
             $gender = $this->getUser()->getGenre();
-            $repository = $this->getDoctrine()->getRepository(Panier::class);
-            $panier = $repository->findOneBy(['id' => $id]);
+            
 
             return $this->render('category.html.twig', [
-                'controller_name' => 'GeekBeezController',
-                'panier' => $panier, 'genre' => $gender, 'produits' => $produits
+                'controller_name' => 'GeekBeezController','genre' => $gender, 'produits' => $produits
             ]);
         }else{
-            $panier = NULL;
-            $gender = NULL;        
+           $gender = NULL;        
         }
         
         return $this->render('category.html.twig', [
-            'controller_name' => 'GeekBeezController',
-            'panier' => $panier,'genre' => $gender, 'produits' => $produits
+            'controller_name' => 'GeekBeezController','genre' => $gender, 'produits' => $produits
         ]);
     }
 
@@ -295,22 +269,18 @@ class GeekBeezController extends AbstractController
         {
             $id = $this->getUser()->getId();
             $gender = $this->getUser()->getGenre();
-            $repository = $this->getDoctrine()->getRepository(Panier::class);
-            $panier = $repository->findOneBy(['id' => $id]);
+            
 
             return $this->render('produit.html.twig', [
-                'controller_name' => 'GeekBeezController',
-                'panier' => $panier, 'genre' => $gender, 'produit' => $produit
+                'controller_name' => 'GeekBeezController','genre' => $gender, 'produit' => $produit
             ]);
         }else{
-            $panier = NULL;
-            $gender = NULL;        
+           $gender = NULL;        
         }
         
 
         return $this->render('produit.html.twig', [
-            'controller_name' => 'GeekBeezController',
-            'panier' => $panier,'genre' => $gender, 'produit' => $produit
+            'controller_name' => 'GeekBeezController','genre' => $gender, 'produit' => $produit
         ]);
     }
 
@@ -329,22 +299,18 @@ class GeekBeezController extends AbstractController
         {
             $id = $this->getUser()->getId();
             $gender = $this->getUser()->getGenre();
-            $repository = $this->getDoctrine()->getRepository(Panier::class);
-            $panier = $repository->findOneBy(['id' => $id]);
+            
 
             return $this->render('category.html.twig', [
-                'controller_name' => 'GeekBeezController',
-                'panier' => $panier, 'genre' => $gender, 'produits' => $produits
+                'controller_name' => 'GeekBeezController','genre' => $gender, 'produits' => $produits
             ]);
         }else{
-            $panier = NULL;
-            $gender = NULL;        
+           $gender = NULL;        
         }
         
 
         return $this->render('category.html.twig', [
-            'controller_name' => 'GeekBeezController',
-            'panier' => $panier,'genre' => $gender, 'produits' => $produits
+            'controller_name' => 'GeekBeezController','genre' => $gender, 'produits' => $produits
         ]);
     }
     /**
@@ -355,20 +321,16 @@ class GeekBeezController extends AbstractController
         {
             $id = $this->getUser()->getId();
             $gender = $this->getUser()->getGenre();
-            $repository = $this->getDoctrine()->getRepository(Panier::class);
-            $panier = $repository->findOneBy(['id' => $id]);
+            
 
             return $this->render('produit.html.twig', [
-                'controller_name' => 'GeekBeezController',
-                'panier' => $panier, 'genre' => $gender, 'produit' => $produit
+                'controller_name' => 'GeekBeezController','genre' => $gender, 'produit' => $produit
             ]);
         }else{
-            $panier = NULL;
-            $gender = NULL;        
+           $gender = NULL;        
         }
         return $this->render('produit.html.twig', [
-            'controller_name' => 'GeekBeezController',
-            'panier' => $panier,'genre' => $gender, 'produit' => $produit
+            'controller_name' => 'GeekBeezController','genre' => $gender, 'produit' => $produit
         ]);
     }
     

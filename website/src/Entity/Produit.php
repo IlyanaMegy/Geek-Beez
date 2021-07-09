@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -70,9 +72,15 @@ class Produit
      */
     private $quantity;
 
+    /**
+     * @ORM\OneToMany(targetEntity=OrderItem::class, mappedBy="Produit")
+     */
+    private $orderItems;
+
     function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->orderItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -219,6 +227,36 @@ class Produit
     public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrderItem[]
+     */
+    public function getOrderItems(): Collection
+    {
+        return $this->orderItems;
+    }
+
+    public function addOrderItem(OrderItem $orderItem): self
+    {
+        if (!$this->orderItems->contains($orderItem)) {
+            $this->orderItems[] = $orderItem;
+            $orderItem->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderItem(OrderItem $orderItem): self
+    {
+        if ($this->orderItems->removeElement($orderItem)) {
+            // set the owning side to null (unless already changed)
+            if ($orderItem->getProduit() === $this) {
+                $orderItem->setProduit(null);
+            }
+        }
 
         return $this;
     }

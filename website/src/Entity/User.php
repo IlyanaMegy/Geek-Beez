@@ -6,6 +6,8 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -90,6 +92,25 @@ class User implements UserInterface
      */
     private $reset_token;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $panier_produit_id = [];
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $panier_produit_occur = [];
+
+
+
+
+    protected $panier_produits;
+
+    public function __construct()
+    {
+        $this->panier_produits = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -296,5 +317,34 @@ class User implements UserInterface
     public function getIsVerified(): ?bool
     {
         return $this->isVerified;
+    }
+
+    public function getPanierProduitId(): ?array
+    {
+        return $this->panier_produit_id;
+    }
+
+    public function setPanierProduitId(?array $panier_produit_id): self
+    {
+        $this->panier_produit_id = $panier_produit_id;
+
+        return $this;
+    }
+
+    public function getPanierProduitOccur(): ?array
+    {
+        return $this->panier_produit_occur;
+    }
+
+    public function setPanierProduitOccur(?array $panier_produit_occur): self
+    {
+        $this->panier_produit_occur = $panier_produit_occur;
+
+        return $this;
+    }
+
+    public function getPanierProduits(): Collection
+    {
+        return $this->panier_produits;
     }
 }

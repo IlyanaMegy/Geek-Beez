@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\PanierRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,80 +18,57 @@ class Panier
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="panier_id")
+     * @ORM\Column(type="integer")
      */
-    private $user_id;
+    private $ProduitId;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="integer")
      */
-    private $product_id = [];
+    private $UserId;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="integer")
      */
-    private $occurence = [];
-
-    public function __construct()
-    {
-        $this->user_id = new ArrayCollection();
-    }
+    private $ProduitOccur;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUserId(): Collection
+    public function getProduitId(): ?int
     {
-        return $this->user_id;
+        return $this->ProduitId;
     }
 
-    public function addUserId(User $userId): self
+    public function setProduitId(int $ProduitId): self
     {
-        if (!$this->user_id->contains($userId)) {
-            $this->user_id[] = $userId;
-            $userId->setPanierId($this);
-        }
+        $this->ProduitId = $ProduitId;
 
         return $this;
     }
 
-    public function removeUserId(User $userId): self
+    public function getUserId(): ?int
     {
-        if ($this->user_id->removeElement($userId)) {
-            // set the owning side to null (unless already changed)
-            if ($userId->getPanierId() === $this) {
-                $userId->setPanierId(null);
-            }
-        }
+        return $this->UserId;
+    }
+
+    public function setUserId(int $UserId): self
+    {
+        $this->UserId = $UserId;
 
         return $this;
     }
 
-    public function getProductId(): ?array
+    public function getProduitOccur(): ?int
     {
-        return $this->product_id;
+        return $this->ProduitOccur;
     }
 
-    public function setProductId(?array $product_id): self
+    public function setProduitOccur(int $ProduitOccur): self
     {
-        $this->product_id = $product_id;
-
-        return $this;
-    }
-
-    public function getOccurence(): ?array
-    {
-        return $this->occurence;
-    }
-
-    public function setOccurence(?array $occurence): self
-    {
-        $this->occurence = $occurence;
+        $this->ProduitOccur = $ProduitOccur;
 
         return $this;
     }

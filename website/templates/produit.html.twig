@@ -12,20 +12,38 @@
 
     </head>
 {% apply inline_css %}
-<body>
+    <body>
 
-    <div>
-        {% include 'navbar.php' %}
-    </div>
+        <div>
+            {% include 'navbar.php' %}
+        </div>
     
-    <div class="container justify-content-center" style="margin-top:150px">
-        <h1>Page du {{produit.titre}}</h1>
-    </div>
+        <div class="col-md-8">
+            <h1 class="mt-4 mt-md-0">{{ produit.titre }}</h1>
+            <h2>{{ produit.prix }} €</h2>
+            <hr>
+            <b>Description: </b>{{ produit.descr }}
+            
+            {{ form_start(form, {'attr': {'class': 'mt-4 p-4 bg-light'}}) }}
+            <div class="form-group">
+                {{ form_label(form.quantity) }}
+                {{ form_widget(form.quantity, {
+                    'attr': {
+                        'class': 'form-control ' ~ (form.quantity.vars.valid ? '' : 'is-invalid')
+                    }
+                }) }}
+                <div class="invalid-feedback">
+                    {{ form_errors(form.quantity) }}
+                </div>
+            </div>
+            {{ form_widget(form.add, {'attr': {'class': 'btn btn-warning w-25'}}) }}
+            {{ form_end(form) }}
+        </div>
 
-
-    <div>
-        {% include 'footer.php' %}
-    </div>
-</body>
+        <div>
+            {% include 'footer.php' %}
+        </div>
+    </body>
 {% endapply %}
 </html>
+
